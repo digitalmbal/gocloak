@@ -447,17 +447,23 @@ func (g *GoCloak) GetIssuer(ctx context.Context, realm string) (*IssuerResponse,
 }
 
 // RetrospectToken calls the openid-connect introspect endpoint
-func (g *GoCloak) RetrospectToken(ctx context.Context, accessToken, clientID, clientSecret, realm string) (*IntroSpectTokenResult, error) {
+func (g *GoCloak) RetrospectToken(ctx context.Context, accessToken, clientID, clientSecret, realm string, hint *string) (*IntroSpectTokenResult, error) {
 	const errMessage = "could not introspect requesting party token"
 
 	var result IntroSpectTokenResult
-	resp, err := g.GetRequestWithBasicAuth(ctx, clientID, clientSecret).
+	request := g.GetRequestWithBasicAuth(ctx, clientID, clientSecret).
 		SetFormData(map[string]string{
-			"token_type_hint": "requesting_party_token",
-			"token":           accessToken,
+			"token": accessToken,
 		}).
-		SetResult(&result).
-		Post(g.getRealmURL(realm, g.Config.tokenEndpoint, "introspect"))
+		SetResult(&result)
+
+	if hint != nil {
+		request = request.SetFormData(map[string]string{
+			"token_type_hint": *hint,
+		})
+	}
+
+	resp, err := request.Post(g.getRealmURL(realm, g.Config.tokenEndpoint, "introspect"))
 
 	if err := checkForError(resp, err, errMessage); err != nil {
 		return nil, err
