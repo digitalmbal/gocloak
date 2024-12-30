@@ -707,6 +707,7 @@ func Test_RetrospectRequestingPartyToken(t *testing.T) {
 		cfg.GoCloak.ClientID,
 		cfg.GoCloak.ClientSecret,
 		cfg.GoCloak.Realm,
+		nil,
 	)
 	t.Log(rptResult)
 	require.NoError(t, err, "inspection failed")
@@ -842,7 +843,9 @@ func Test_RetrospectToken_InactiveToken(t *testing.T) {
 		"foobar",
 		cfg.GoCloak.ClientID,
 		cfg.GoCloak.ClientSecret,
-		cfg.GoCloak.Realm)
+		cfg.GoCloak.Realm,
+		nil,
+	)
 	t.Log(rptResult)
 	require.NoError(t, err, "inspection failed")
 	require.False(t, gocloak.PBool(rptResult.Active), "That should never happen. Token is active")
@@ -859,7 +862,9 @@ func Test_RetrospectToken(t *testing.T) {
 		token.AccessToken,
 		cfg.GoCloak.ClientID,
 		cfg.GoCloak.ClientSecret,
-		cfg.GoCloak.Realm)
+		cfg.GoCloak.Realm,
+		nil,
+	)
 	t.Log(rptResult)
 	require.NoError(t, err, "Inspection failed")
 	require.True(t, gocloak.PBool(rptResult.Active), "Inactive Token oO")
@@ -1081,6 +1086,7 @@ func Test_GetRequestingPartyToken(t *testing.T) {
 		cfg.GoCloak.ClientID,
 		cfg.GoCloak.ClientSecret,
 		cfg.GoCloak.Realm,
+		nil,
 	)
 	require.NoError(t, err, "RetrospectToken failed")
 }
