@@ -46,6 +46,7 @@ type RealmAccess struct {
 type ResourceAccess struct {
 	RealmManagement RealmManagement `json:"realm-management,omitempty"`
 	Account         Account         `json:"account,omitempty"`
+	GroupSync       GroupSync       `json:"group-sync,omitempty"`
 }
 
 // RealmManagement holds TODO: What does it hold?
@@ -55,5 +56,10 @@ type RealmManagement struct {
 
 // Account holds TODO: What does it hold?
 type Account struct {
+	Roles []string `json:"roles,omitempty"`
+}
+
+// Account holds TODO: What does it hold?
+type GroupSync struct {
 	Roles []string `json:"roles,omitempty"`
 }

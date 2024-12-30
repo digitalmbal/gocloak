@@ -5,13 +5,13 @@ import (
 	"encoding/json"
 	"strings"
 
+	"github.com/Nerzal/gocloak/v13/pkg/jwx"
 	"github.com/golang-jwt/jwt/v5"
 )
 
 // GetQueryParams converts the struct to map[string]string
 // The fields tags must have `json:"<name>,string,omitempty"` format for all types, except strings
-// The string fields must have: `json:"<name>,omitempty"`. The `json:"<name>,string,omitempty"` tag for string field
-// will add additional double quotes.
+// The string fields must have: `json:"<name>,omitempty"`. The `json:"<name>,string,omitempty"` tag for string field will add additional double quotes.
 // "string" tag allows to convert the non-string fields of a structure to map[string]string.
 // "omitempty" allows to skip the fields with default values.
 func GetQueryParams(s interface{}) (map[string]string, error) {
@@ -184,16 +184,17 @@ type PermissionScope struct {
 
 // IntroSpectTokenResult is returned when a token was checked
 type IntroSpectTokenResult struct {
-	Permissions *[]ResourcePermission `json:"permissions,omitempty"`
-	Exp         *int                  `json:"exp,omitempty"`
-	Nbf         *int                  `json:"nbf,omitempty"`
-	Iat         *int                  `json:"iat,omitempty"`
-	Aud         *StringOrArray        `json:"aud,omitempty"`
-	Active      *bool                 `json:"active,omitempty"`
-	AuthTime    *int                  `json:"auth_time,omitempty"`
-	Jti         *string               `json:"jti,omitempty"`
-	Type        *string               `json:"typ,omitempty"`
-	Azp         *string               `json:"azp,omitempty"`
+	Permissions    *[]ResourcePermission `json:"permissions,omitempty"`
+	Exp            *int                  `json:"exp,omitempty"`
+	Nbf            *int                  `json:"nbf,omitempty"`
+	Iat            *int                  `json:"iat,omitempty"`
+	Aud            *StringOrArray        `json:"aud,omitempty"`
+	Active         *bool                 `json:"active,omitempty"`
+	AuthTime       *int                  `json:"auth_time,omitempty"`
+	Jti            *string               `json:"jti,omitempty"`
+	Type           *string               `json:"typ,omitempty"`
+	Azp            *string               `json:"azp,omitempty"`
+	ResourceAccess *jwx.ResourceAccess   `json:"resource_access,omitempty"`
 }
 
 // User represents the Keycloak User Structure
