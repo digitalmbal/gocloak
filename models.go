@@ -960,6 +960,7 @@ type TokenOptions struct {
 	RequestedSubject    *string   `json:"requested_subject,omitempty"`
 	Audience            *string   `json:"audience,omitempty"`
 	RequestedTokenType  *string   `json:"requested_token_type,omitempty"`
+	CodeVerifier        *string   `json:"code_verifier,omitempty"`
 }
 
 // FormData returns a map of options to be used in SetFormData function
